@@ -73,7 +73,7 @@ export const Login = () => {
         setLoading(true);
         setError('');
 
-        // This triggers the web-based OAuth flow
+        // Trigger the web-based OAuth flow
         const { error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
@@ -85,6 +85,14 @@ export const Login = () => {
             setError(error.message);
             setLoading(false);
         }
+
+        // Add a safety timeout in case the deep link completely fails to return a session
+        setTimeout(() => {
+            setLoading((prev) => {
+                if (prev) setError("Login timed out or was cancelled. Please try again.");
+                return false;
+            });
+        }, 15000);
     };
 
     return (
