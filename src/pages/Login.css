@@ -1,0 +1,94 @@
+.login-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+    width: 100%;
+}
+
+.login-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.logo-container {
+    width: 88px;
+    height: 88px;
+    background: var(--surface);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--primary);
+    box-shadow: 0 0 32px var(--primary-glow);
+    margin-bottom: 0.75rem;
+}
+
+.logo-icon {
+    color: var(--primary);
+}
+
+.login-title {
+    font-size: 2.75rem;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.login-subtitle {
+    color: var(--primary);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+}
+
+.login-card {
+    width: 100%;
+    animation-fill-mode: both;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.forgot-password {
+    text-align: right;
+}
+
+.forgot-password a {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    transition: color 0.2s ease;
+    text-decoration: none;
+}
+
+.forgot-password a:hover {
+    color: var(--primary);
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.animate-pulse {
+    animation: pulse 3s ease-in-out infinite;
+}

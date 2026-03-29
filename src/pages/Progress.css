@@ -1,0 +1,103 @@
+.progress-page {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1.5rem;
+}
+
+.weight-tracker,
+.progress-photos {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.weight-card {
+    padding: 1.5rem;
+}
+
+.weight-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.weight-stat-item {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.weight-stat-item .label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+}
+
+.weight-stat-item .value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.weight-stat-item .value small {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.weight-stat-item.highlight .value {
+    color: var(--primary);
+}
+
+.chart-placeholder {
+    height: 150px;
+    background-color: var(--surface-hover);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    border: 1px dashed var(--border);
+    gap: 0.5rem;
+}
+
+.chart-icon {
+    color: var(--primary);
+    opacity: 0.5;
+}
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+}
+
+.photo-item {
+    aspect-ratio: 3/4;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.photo-item.empty {
+    background-color: var(--surface);
+    border: 1px dashed var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-photo-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+}
+
+.add-photo-btn:hover {
+    color: var(--primary);
+}

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">FitFocus</string>
+    <string name="title_activity_main">FitFocus</string>
+    <string name="package_name">com.fitfocus.app</string>
+    <string name="custom_url_scheme">com.fitfocus.app</string>
+</resources>

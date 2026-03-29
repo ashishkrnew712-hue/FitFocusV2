@@ -1,0 +1,126 @@
+.layout-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+    background-color: var(--background);
+    max-width: 480px;
+    margin: 0 auto;
+    position: relative;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+.layout-content {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 90px;
+    /* Enhanced space for bottom nav + safe area */
+    scrollbar-width: none;
+    /* Firefox */
+    display: flex;
+    flex-direction: column;
+}
+
+.layout-content::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari */
+}
+
+.bottom-nav {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: rgba(21, 23, 30, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    /* Align to bottom, safe area below */
+    padding: 0 10px;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    z-index: 50;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 8px 4px;
+    border-radius: var(--radius-lg);
+    position: relative;
+    flex: 1;
+}
+
+.nav-item:hover {
+    color: var(--text-secondary);
+}
+
+.nav-item.active {
+    color: var(--primary);
+}
+
+.nav-label {
+    font-size: 0.65rem;
+    font-weight: 500;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+    letter-spacing: 0.02em;
+}
+
+.nav-item.active .nav-label {
+    opacity: 1;
+}
+
+.nav-item.primary-item {
+    color: #000;
+    background-color: var(--primary);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    flex: none;
+    transform: translateY(-20px);
+    box-shadow: 0 8px 24px var(--primary-glow);
+    border: 4px solid var(--background);
+    padding: 0;
+    /* Ensure it's centered properly in its space */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-item.primary-item .nav-label {
+    display: none;
+}
+
+.nav-item.primary-item:active {
+    transform: translateY(-18px) scale(0.95);
+}
+
+/* Subtle indicator dot for active item */
+.nav-item:not(.primary-item)::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    opacity: 0;
+    transform: translateY(4px);
+    transition: all 0.3s ease;
+}
+
+.nav-item.active:not(.primary-item)::after {
+    opacity: 1;
+    transform: translateY(0);
+}
