@@ -21,6 +21,20 @@ const PlaceholderPage = ({ title }) => (
 function App() {
   useOfflineSync();
 
+  useEffect(() => {
+    CapacitorApp.addListener('appUrlOpen', async (event) => {
+      if (event.url.includes('#access_token=')) {
+        await supabase.auth.getSessionFromUrl({
+          url: event.url
+        });
+      }
+    });
+
+    return () => {
+      CapacitorApp.removeAllListeners();
+    };
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
