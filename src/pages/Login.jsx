@@ -33,6 +33,11 @@ export const Login = () => {
     };
 
     const handleSignUp = async () => {
+        if (!email || !password) {
+            setError('Please enter both an email and a password to create an account.');
+            return;
+        }
+
         setLoading(true);
         setError('');
         const { error } = await supabase.auth.signUp({
