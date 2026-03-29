@@ -26,10 +26,18 @@ function App() {
 
   useEffect(() => {
     CapacitorApp.addListener('appUrlOpen', async (event) => {
-      if (event.url.includes('#access_token=')) {
-        await supabase.auth.getSessionFromUrl({
-          url: event.url
-        });
+      try {
+        const url = new URL(event.url);
+
+        if (url.hash && url.hash.includes('access_token')) {
+          await supabase.auth.getSessionFromUrl({ url: event.url });
+        }
+
+        if (url.searchParams && url.searchParams.has('code')) {
+          await supabase.auth.exchangeCodeForSession(url.searchParams.get('code'));
+        }
+      } catch (e) {
+        console.error('Deep link intercept error:', e);
       }
     });
 
