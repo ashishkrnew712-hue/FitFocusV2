@@ -48,6 +48,21 @@ export const Login = () => {
         setLoading(false);
     };
 
+    const handleGoogleLogin = async () => {
+        setLoading(true);
+        setError('');
+
+        // This triggers the web-based OAuth flow
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+        });
+
+        if (error) {
+            setError(error.message);
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="login-page">
             <div className="login-header animate-slide-up">
@@ -84,6 +99,14 @@ export const Login = () => {
                         {loading ? 'Processing...' : 'Sign In'}
                     </Button>
                     <Button type="button" variant="ghost" fullWidth onClick={handleSignUp} disabled={loading}>Create Account</Button>
+
+                    <div className="divider">
+                        <span>or</span>
+                    </div>
+
+                    <Button type="button" variant="surface" fullWidth onClick={handleGoogleLogin} disabled={loading}>
+                        Sign in with Google
+                    </Button>
                 </form>
             </Card>
         </div>
