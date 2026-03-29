@@ -47,7 +47,7 @@ export const Login = () => {
 
         try {
             const { error: authError } = await supabase.auth.signInWithPassword({
-                email,
+                email: email.trim().toLowerCase(),
                 password,
             });
 
@@ -75,7 +75,7 @@ export const Login = () => {
 
         try {
             const { error: signUpError } = await supabase.auth.signUp({
-                email,
+                email: email.trim().toLowerCase(),
                 password,
                 options: {
                     data: {
@@ -161,6 +161,9 @@ export const Login = () => {
                         icon={<Mail />}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        autoCapitalize="none"
+                        autoCorrect="off"
+                        spellCheck="false"
                         required
                     />
                     <Input
