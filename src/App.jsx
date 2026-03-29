@@ -1,4 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { App as CapacitorApp } from '@capacitor/app';
+import { supabase } from './supabaseClient';
 import { AuthLayout } from './layouts/AuthLayout';
 import { MainLayout } from './layouts/MainLayout';
 import { Login } from './pages/Login';

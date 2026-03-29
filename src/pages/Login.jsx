@@ -60,6 +60,9 @@ export const Login = () => {
         // This triggers the web-based OAuth flow
         const { error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
+            options: {
+                redirectTo: 'com.fitfocus.app://login-callback'
+            }
         });
 
         if (error) {
