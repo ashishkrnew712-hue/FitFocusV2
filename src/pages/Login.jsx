@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Mail, Lock, Activity } from 'lucide-react';
 import { Button } from '../components/ui/Button';
@@ -13,6 +13,22 @@ export const Login = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        // Automatically push the user to dashboard if Supabase successfully authenticates them (e.g. returning from deep link)
+        const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+            if (session) {
+                navigate('/dashboard');
+            }
+        });
+
+        // Also check immediately when the page loads
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session) navigate('/dashboard');
+        });
+
+        return () => authListener.subscription.unsubscribe();
+    }, [navigate]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
