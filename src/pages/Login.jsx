@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mail, Lock, Activity } from 'lucide-react';
+import { Mail, Lock, Activity, User } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Card } from '../components/ui/Card';
@@ -9,6 +9,8 @@ import './Login.css';
 
 export const Login = () => {
     const navigate = useNavigate();
+    const [isSignUpMode, setIsSignUpMode] = useState(false);
+    const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -30,8 +32,16 @@ export const Login = () => {
         return () => authListener.subscription.unsubscribe();
     }, [navigate]);
 
-    const handleLogin = async (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
+        if (isSignUpMode) {
+            await handleSignUp();
+        } else {
+            await handleLogin();
+        }
+    };
+
+    const handleLogin = async () => {
         setLoading(true);
         setError('');
 
@@ -59,6 +69,11 @@ export const Login = () => {
         const { error } = await supabase.auth.signUp({
             email,
             password,
+            options: {
+                data: {
+                    full_name: fullName
+                }
+            }
         });
 
         if (error) {
@@ -102,11 +117,22 @@ export const Login = () => {
                     <Activity size={40} className="logo-icon animate-pulse" />
                 </div>
                 <h1 className="login-title">FitFocus</h1>
-                <p className="login-subtitle">Ultimate Fitness Tracker</p>
+                <p className="login-subtitle">
+                    {isSignUpMode ? 'Create your account' : 'Ultimate Fitness Tracker'}
+                </p>
             </div>
 
             <Card variant="glass" className="login-card animate-slide-up" style={{ animationDelay: '0.1s' }}>
-                <form onSubmit={handleLogin} className="login-form">
+                <form onSubmit={onSubmit} className="login-form">
+                    {isSignUpMode && (
+                        <Input
+                            type="text"
+                            placeholder="Full Name (optional)"
+                            icon={<User />}
+                            value={fullName}
+                            onChange={(e) => setFullName(e.target.value)}
+                        />
+                    )}
                     <Input
                         type="email"
                         placeholder="Email Address"
@@ -124,13 +150,24 @@ export const Login = () => {
                         error={error}
                         required
                     />
-                    <div className="forgot-password">
-                        <a href="#">Forgot password?</a>
-                    </div>
+                    {!isSignUpMode && (
+                        <div className="forgot-password">
+                            <a href="#">Forgot password?</a>
+                        </div>
+                    )}
                     <Button type="submit" fullWidth size="lg" style={{ marginTop: '0.5rem' }} disabled={loading}>
-                        {loading ? 'Processing...' : 'Sign In'}
+                        {loading ? 'Processing...' : (isSignUpMode ? 'Create Account' : 'Sign In')}
                     </Button>
-                    <Button type="button" variant="ghost" fullWidth onClick={handleSignUp} disabled={loading}>Create Account</Button>
+
+                    <div style={{ textAlign: 'center', marginTop: '1rem', fontSize: '0.875rem', color: 'var(--text-muted)' }}>
+                        {isSignUpMode ? "Already have an account? " : "Don't have an account? "}
+                        <span
+                            style={{ color: 'var(--primary)', cursor: 'pointer', fontWeight: 500 }}
+                            onClick={() => { setIsSignUpMode(!isSignUpMode); setError(''); }}
+                        >
+                            {isSignUpMode ? 'Sign In' : 'Sign Up'}
+                        </span>
+                    </div>
 
                     <div className="divider">
                         <span>or</span>
