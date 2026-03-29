@@ -45,17 +45,23 @@ export const Login = () => {
         setLoading(true);
         setError('');
 
-        const { error } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-        });
+        try {
+            const { error: authError } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            });
 
-        if (error) {
-            setError(error.message);
-        } else {
-            navigate('/dashboard');
+            if (authError) {
+                setError(authError.message);
+            } else {
+                navigate('/dashboard');
+            }
+        } catch (err) {
+            console.error('Login error:', err);
+            setError('Connection error. Please check your internet.');
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     const handleSignUp = async () => {
@@ -66,45 +72,61 @@ export const Login = () => {
 
         setLoading(true);
         setError('');
-        const { error } = await supabase.auth.signUp({
-            email,
-            password,
-            options: {
-                data: {
-                    full_name: fullName
-                }
-            }
-        });
 
-        if (error) {
-            setError(error.message);
-        } else {
-            setError('Check your email for the login link! Or try signing in if auto-confirmed.');
+        try {
+            const { error: signUpError } = await supabase.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: {
+                        full_name: fullName
+                    }
+                }
+            });
+
+            if (signUpError) {
+                setError(signUpError.message);
+            } else {
+                setError('Success! You can now sign in.');
+            }
+        } catch (err) {
+            console.error('Signup error:', err);
+            setError('Connection error. Please check your internet.');
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     const handleGoogleLogin = async () => {
         setLoading(true);
         setError('');
 
-        // Trigger the web-based OAuth flow
-        const { error } = await supabase.auth.signInWithOAuth({
-            provider: 'google',
-            options: {
-                redirectTo: 'com.fitfocus.app://login-callback'
-            }
-        });
+        try {
+            // Trigger the web-based OAuth flow
+            const { error: googleError } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: 'com.fitfocus.app://login-callback'
+                }
+            });
 
-        if (error) {
-            setError(error.message);
+            if (googleError) {
+                setError(googleError.message);
+                setLoading(false);
+            }
+        } catch (err) {
+            console.error('Google login error:', err);
+            setError('OAuth failed. Please try again or use email.');
             setLoading(false);
         }
 
         // Add a safety timeout in case the deep link completely fails to return a session
         setTimeout(() => {
             setLoading((prev) => {
-                if (prev) setError("Login took too long and was aborted. Please try again.");
+                if (prev) {
+                    console.warn('Login timed out after 120s');
+                    setError("Login took too long and was aborted. Please try again.");
+                }
                 return false;
             });
         }, 120000);

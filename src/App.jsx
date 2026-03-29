@@ -29,12 +29,15 @@ function App() {
       try {
         const url = new URL(event.url);
 
+        // Handle Implicit flow (hash fragments)
         if (url.hash && url.hash.includes('access_token')) {
           await supabase.auth.getSessionFromUrl({ url: event.url });
         }
 
+        // Handle PKCE flow (query parameters)
         if (url.searchParams && url.searchParams.has('code')) {
-          await supabase.auth.exchangeCodeForSession(url.searchParams.get('code'));
+          const code = url.searchParams.get('code');
+          await supabase.auth.exchangeCodeForSession(code);
         }
       } catch (e) {
         console.error('Deep link intercept error:', e);
