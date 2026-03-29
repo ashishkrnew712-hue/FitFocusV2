@@ -104,10 +104,10 @@ export const Login = () => {
         // Add a safety timeout in case the deep link completely fails to return a session
         setTimeout(() => {
             setLoading((prev) => {
-                if (prev) setError("Login timed out or was cancelled. Please try again.");
+                if (prev) setError("Login took too long and was aborted. Please try again.");
                 return false;
             });
-        }, 15000);
+        }, 120000);
     };
 
     return (
